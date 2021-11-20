@@ -1,0 +1,32 @@
+pkgname=servus
+pkgver=4.0.5
+pkgrel=1
+pkgdesc='servus'
+arch=('x86_64' 'armv7h' 'aarch64')
+url='https://github.com/DictumMortuum/servus'
+license=(APACHE)
+makedepends=(go)
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-s -ldflags=-w"
+  export GOARCH="$ARCH"
+  make VERSION=$pkgver build
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  install -Dm755 "servus" "$pkgdir/usr/local/bin/servus"
+  install -Dm644 "systemd/servus.service" "$pkgdir"/usr/lib/systemd/system/servus.service
+
+  cd "$srcdir/$pkgname-$pkgver/templates"
+  for template in *; do
+    install -Dm644 "$template" "$pkgdir"/usr/share/webapps/servus/$template
+  done
+}

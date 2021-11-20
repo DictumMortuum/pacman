@@ -1,0 +1,27 @@
+pkgname=i3-utils
+pkgver=9.5.0
+pkgrel=1
+pkgdesc='i3-utils'
+arch=('x86_64')
+url='https://github.com/DictumMortuum/i3-utils'
+license=(APACHE)
+makedepends=(go)
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-s -ldflags=-w"
+  export GOARCH="$ARCH"
+  make VERSION=$pkgver build
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  install -Dm755 "i3-utils" "$pkgdir/usr/local/bin/i3-utils"
+  install -Dm644 "icons/globe.svg" "$pkgdir/usr/share/servus/globe.svg"
+}
