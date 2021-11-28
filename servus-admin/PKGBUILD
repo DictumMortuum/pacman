@@ -1,5 +1,5 @@
 pkgname=servus-admin
-pkgver=0.0.3
+pkgver=0.0.5
 pkgrel=1
 pkgdesc='servus-admin'
 arch=('aarch64')
