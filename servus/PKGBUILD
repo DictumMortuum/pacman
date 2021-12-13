@@ -1,5 +1,5 @@
 pkgname=servus
-pkgver=4.1.8
+pkgver=4.1.9
 pkgrel=1
 pkgdesc='servus'
 arch=('x86_64' 'armv7h' 'aarch64')
