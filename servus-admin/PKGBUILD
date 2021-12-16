@@ -1,24 +1,30 @@
 pkgname=servus-admin
-pkgver=0.0.8
+pkgver="0.0.8"
 pkgrel=1
+pkgbranch=master
 pkgdesc='servus-admin'
 arch=('aarch64')
 url='https://github.com/DictumMortuum/servus-admin'
 license=(APACHE)
-makedepends=(go)
-source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+makedepends=(go jq)
+source=("${pkgname}.tar.gz::${url}/archive/refs/heads/master.tar.gz")
 sha256sums=('SKIP')
 
+pkgver() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  jq '.version' package.json
+}
+
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-$pkgbranch"
   yarn install
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-$pkgbranch"
   yarn build
-  cd build
 
+  cd build
   for f in ./*; do
     [[ ! -d $f ]] && install -Dm644 "$f" "$pkgdir"/usr/share/webapps/servus-admin/$f
   done
