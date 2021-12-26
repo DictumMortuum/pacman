@@ -1,5 +1,5 @@
 ---
-name: servus
+name: pacman
 
 on:  # yamllint disable-line rule:truthy
   push:
@@ -13,27 +13,51 @@ on:  # yamllint disable-line rule:truthy
 jobs:
   validation:
     runs-on: ubuntu-latest
-    name: Validate a Pull Request
+    name: Create artifacts
     steps:
       - uses: actions/checkout@v1
 
-      - name: Validate PKGBUILD
+      - name: Create aarch64 servus
         id: validate-pkgbuild
         uses: DictumMortuum/arch-pkgbuild-builder@v1.19
         with:
           target: 'pkgbuild'
           pkgname: 'servus'
-          makepkg: 'aarch64_github.conf'
+          makepkg: 'aarch64.conf'
+
+      - name: Create x86_64 i3-utils
+        id: validate-pkgbuild
+        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
+        with:
+          target: 'pkgbuild'
+          pkgname: 'i3-utils'
+          makepkg: 'x86_64.conf'
+
+      - name: Create aarch64 servus-admin
+        id: validate-pkgbuild
+        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
+        with:
+          target: 'pkgbuild'
+          pkgname: 'servus-admin'
+          makepkg: 'aarch64.conf'
+
+      - run: |
+          cd /tmp/repo
+          repo-add -R personal.db.tar.gz *aarch64*.pkg.tar.zst >> build.log
+          repo-add -R personal-x86_64.tar.gz *x86_64*.pkg.tar.zst >> build.log
 
       - name: Upload artifacts
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./servus/*.tar.zst
+          file: /tmp/repo/*.tar.zst
           file_glob: true
           tag: ${{ github.ref }}
 
-      # - name: Upload artifacts
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     path: ./servus/*.tar.zst
+      - name: Upload repositories
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./servus/*.db.tar.gz
+          file_glob: true
+          tag: ${{ github.ref }}
