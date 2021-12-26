@@ -1,0 +1,38 @@
+---
+name: ci
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - master
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    name: Validate a Pull Request
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Validate PKGBUILD
+        id: validate-pkgbuild
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: 'pkgbuild'
+          pkgname: 'servus'
+
+      - name: Validate binary
+        id: validate-binary
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: 'run'
+          pkgname: 'servus'
+          command: 'servus --help'
+
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v0.0.2
+        with:
+          file_or_dir: .github/workflows/ci.yml
