@@ -19,14 +19,15 @@ jobs:
 
       - name: Validate PKGBUILD
         id: validate-pkgbuild
-        uses: 2m/arch-pkgbuild-builder@v1.16
+        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
         with:
           target: 'pkgbuild'
           pkgname: 'servus'
+          makepkg: 'aarch64.conf'
 
       - name: Validate binary
         id: validate-binary
-        uses: 2m/arch-pkgbuild-builder@v1.16
+        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
         with:
           target: 'run'
           pkgname: 'servus'
