@@ -17,6 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - run: mkdir -p /repo
+
       - name: Create aarch64 servus
         id: servus-aarch64
         uses: DictumMortuum/arch-pkgbuild-builder@v1.20
@@ -24,6 +26,8 @@ jobs:
           target: 'pkgbuild'
           pkgname: 'servus'
           makepkg: 'aarch64.conf'
+
+      - run: cp /tmp/repo/*.pkg.tar.zst /repo/
 
       - name: Create x86_64 i3-utils
         id: i3-utils-x86_64
@@ -33,6 +37,8 @@ jobs:
           pkgname: 'i3-utils'
           makepkg: 'x86_64.conf'
 
+      - run: cp /tmp/repo/*.pkg.tar.zst /repo/
+
       - name: Create aarch64 servus-admin
         id: servus-admin-aarch64
         uses: DictumMortuum/arch-pkgbuild-builder@v1.20
@@ -41,8 +47,10 @@ jobs:
           pkgname: 'servus-admin'
           makepkg: 'aarch64.conf'
 
+      - run: cp /tmp/repo/*.pkg.tar.zst /repo/
+
       - run: |
-          cd /tmp/repo
+          cd /repo
           repo-add -R personal.db.tar.gz *aarch64*.pkg.tar.zst >> build.log
           repo-add -R personal-x86_64.tar.gz *x86_64*.pkg.tar.zst >> build.log
 
@@ -50,7 +58,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: /tmp/repo/*.tar.zst
+          file: /repo/*.tar.zst
           file_glob: true
           tag: ${{ github.ref }}
 
@@ -58,6 +66,6 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./servus/*.db.tar.gz
+          file: /repo/*.db.tar.gz
           file_glob: true
           tag: ${{ github.ref }}
