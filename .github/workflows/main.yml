@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Create aarch64 servus
-        id: validate-pkgbuild
+        id: servus-aarch64
         uses: DictumMortuum/arch-pkgbuild-builder@v1.19
         with:
           target: 'pkgbuild'
@@ -26,7 +26,7 @@ jobs:
           makepkg: 'aarch64.conf'
 
       - name: Create x86_64 i3-utils
-        id: validate-pkgbuild
+        id: i3-utils-x86_64
         uses: DictumMortuum/arch-pkgbuild-builder@v1.19
         with:
           target: 'pkgbuild'
@@ -34,7 +34,7 @@ jobs:
           makepkg: 'x86_64.conf'
 
       - name: Create aarch64 servus-admin
-        id: validate-pkgbuild
+        id: servus-admin-aarch64
         uses: DictumMortuum/arch-pkgbuild-builder@v1.19
         with:
           target: 'pkgbuild'
