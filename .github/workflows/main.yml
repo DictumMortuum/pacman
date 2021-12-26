@@ -23,17 +23,4 @@ jobs:
         with:
           target: 'pkgbuild'
           pkgname: 'servus'
-          makepkg: 'aarch64.conf'
-
-      - name: Validate binary
-        id: validate-binary
-        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
-        with:
-          target: 'run'
-          pkgname: 'servus'
-          command: 'servus --help'
-
-      - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v0.0.2
-        with:
-          file_or_dir: .github/workflows/ci.yml
+          makepkg: 'aarch64_github.conf'
