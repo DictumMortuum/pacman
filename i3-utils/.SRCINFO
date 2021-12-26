@@ -1,0 +1,13 @@
+pkgbase = i3-utils
+	pkgdesc = i3-utils
+	pkgver = 9.5.0
+	pkgrel = 1
+	url = https://github.com/DictumMortuum/i3-utils
+	arch = x86_64
+	license = APACHE
+	makedepends = go
+	makedepends = gawk
+	source = i3-utils.tar.gz::https://github.com/DictumMortuum/i3-utils/archive/refs/heads/master.tar.gz
+	sha256sums = SKIP
+
+pkgname = i3-utils

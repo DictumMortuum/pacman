@@ -19,7 +19,7 @@ jobs:
 
       - name: Create aarch64 servus
         id: servus-aarch64
-        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
+        uses: DictumMortuum/arch-pkgbuild-builder@v1.20
         with:
           target: 'pkgbuild'
           pkgname: 'servus'
@@ -27,7 +27,7 @@ jobs:
 
       - name: Create x86_64 i3-utils
         id: i3-utils-x86_64
-        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
+        uses: DictumMortuum/arch-pkgbuild-builder@v1.20
         with:
           target: 'pkgbuild'
           pkgname: 'i3-utils'
@@ -35,7 +35,7 @@ jobs:
 
       - name: Create aarch64 servus-admin
         id: servus-admin-aarch64
-        uses: DictumMortuum/arch-pkgbuild-builder@v1.19
+        uses: DictumMortuum/arch-pkgbuild-builder@v1.20
         with:
           target: 'pkgbuild'
           pkgname: 'servus-admin'
