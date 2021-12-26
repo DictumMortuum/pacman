@@ -33,9 +33,9 @@ jobs:
       #     file_glob: true
       #     tag: ${{ github.ref }}
 
-      - run: ls -lR /github/workspace
+      - run: ls -lR
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          path: /github/workspace/servus/*.tar.zst
+          path: servus/*.tar.zst
