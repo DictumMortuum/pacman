@@ -1,0 +1,33 @@
+pkgname=dictum-home
+pkgver="0.0.1"
+pkgrel=1
+pkgbranch=master
+pkgdesc='dictum-home'
+arch=('aarch64' 'x86_64')
+url='https://github.com/DictumMortuum/dictum-home'
+license=(APACHE)
+makedepends=(jq)
+source=(
+  "${pkgname}.zip::${url}/archive/refs/heads/master.tar.gz"
+  "https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip"
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+)
+
+pkgver() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  jq '.version' package.json
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+
+  for f in ./icons/*; do
+    [[ ! -d $f ]] && install -Dm644 "$f" "$pkgdir"/usr/share/webapps/dictum-home/assets/tools/$(basename $f)
+  done
+
+  unzip "$srcdir/homer.zip" -d "$pkgdir/usr/share/webapps/dictum-home/"
+  install -Dm644 "$srcdir/$pkgname-$pkgbranch/config.yml" "$pkgdir/usr/share/webapps/dictum-home/assets/"
+}
