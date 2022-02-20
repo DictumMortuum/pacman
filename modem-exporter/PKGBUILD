@@ -1,5 +1,5 @@
 pkgname=modem-exporter
-pkgver="0.0.9"
+pkgver="0.0.10"
 pkgrel=1
 pkgbranch=master
 pkgdesc='modem-exporter'
