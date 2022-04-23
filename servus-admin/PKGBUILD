@@ -1,5 +1,5 @@
 pkgname=servus-admin
-pkgver="0.2.1"
+pkgver="0.2.2"
 pkgrel=1
 pkgbranch=master
 pkgdesc='servus-admin'
