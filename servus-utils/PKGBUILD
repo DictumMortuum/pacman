@@ -17,6 +17,7 @@ pkgver() {
 
 build() {
   cd "$srcdir/$pkgname-$pkgbranch"
+  export GOARCH="$ARCH"
   make
 }
 
