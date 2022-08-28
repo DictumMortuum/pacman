@@ -1,5 +1,5 @@
 pkgname=servus
-pkgver="7.1.1"
+pkgver="8.0.0"
 pkgrel=1
 pkgbranch=master
 pkgdesc='servus'
