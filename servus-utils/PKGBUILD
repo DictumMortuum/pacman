@@ -1,0 +1,27 @@
+pkgname=servus-utils
+pkgver="0.0.1"
+pkgrel=1
+pkgbranch=main
+pkgdesc='servus-utils'
+arch=('x86_64' 'armv7h' 'aarch64')
+url='https://github.com/DictumMortuum/servus-utils'
+license=(APACHE)
+makedepends=(go jq)
+source=("${pkgname}.tar.gz::${url}/archive/refs/heads/${pkgbranch}.tar.gz")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  jq '.version' version.json
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  install -Dm755 "srr" "$pkgdir/usr/local/bin/srr"
+  install -Dm755 "scs" "$pkgdir/usr/local/bin/scs"
+}

@@ -1,0 +1,15 @@
+pkgbase = servus-utils
+	pkgdesc = servus-utils
+	pkgver = 0.0.1
+	pkgrel = 1
+	url = https://github.com/DictumMortuum/servus-utils
+	arch = x86_64
+	arch = armv7h
+	arch = aarch64
+	license = APACHE
+	makedepends = go
+	makedepends = jq
+	source = servus-utils.tar.gz::https://github.com/DictumMortuum/servus-utils/archive/refs/heads/main.tar.gz
+	sha256sums = SKIP
+
+pkgname = servus-utils
