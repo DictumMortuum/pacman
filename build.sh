@@ -9,7 +9,7 @@ if [[ -d $REPO ]]; then
   rm /tmp/repo/${REPO}*
   sudo -u dimitris makepkg --config ../${ARCH}.conf -fc | tee /tmp/out
   grep "Updated version" /tmp/out
-  MSG=$(grep -oP "Updated version: .*" /tmp/out | cut -d ' ' -f3- | cut -d '-' -f1 | sed 's/ / v/')
+  MSG=$(grep -oP "Updated version: .*" /tmp/out | cut -d ' ' -f3- | sed 's/ / v/')
   [[ -f /tmp/${REPO}.tar.gz ]] && rm /tmp/${REPO}.tar.gz
   ARTIFACT=$(ls /tmp/repo/${REPO}*)
   sudo -u dimitris scp $ARTIFACT ${SERVER}:/tmp
