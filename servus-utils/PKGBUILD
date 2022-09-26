@@ -25,6 +25,6 @@ package() {
   cd "$srcdir/$pkgname-$pkgbranch"
   install -Dm755 "srr"  "$pkgdir/usr/local/bin/srr"
   install -Dm755 "sds"  "$pkgdir/usr/local/bin/sds"
-  install -Dm755 "scsa"  "$pkgdir/usr/local/bin/scsa"
+  install -Dm755 "scsa" "$pkgdir/usr/local/bin/scsa"
   install -Dm755 "scsb" "$pkgdir/usr/local/bin/scsb"
 }
