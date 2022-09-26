@@ -1,5 +1,5 @@
 pkgname=servus-utils
-pkgver="0.0.4"
+pkgver="0.0.5"
 pkgrel=1
 pkgbranch=main
 pkgdesc='servus-utils'
