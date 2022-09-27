@@ -1,0 +1,33 @@
+pkgname=database-exporter
+pkgver="0.0.1"
+pkgrel=1
+pkgbranch=master
+pkgdesc='database-exporter'
+arch=('x86_64' 'armv7h' 'aarch64')
+url='https://github.com/DictumMortuum/database-exporter'
+license=(APACHE)
+makedepends=(go awk)
+source=("${pkgname}.tar.gz::${url}/archive/refs/heads/master.tar.gz")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  awk '/version :=/ { print $3 }' main.go
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-s -ldflags=-w"
+  export GOARCH="$ARCH"
+  make build
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  install -Dm755 "database-exporter" "$pkgdir/usr/local/bin/database-exporter"
+  install -Dm644 "prometheus-database-exporter.service" "$pkgdir/usr/lib/systemd/system/prometheus-database-exporter.service"
+}
