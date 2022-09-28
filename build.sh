@@ -11,7 +11,7 @@ while (($#)); do
     rm /tmp/repo/${REPO}*
     sudo -u dimitris makepkg --config ../${ARCH}.conf -fc | tee /tmp/out
     grep "Updated version" /tmp/out
-    MSG=$(grep -oP "Updated version: .*" /tmp/out | cut -d ' ' -f3- | sed 's/ / v/')
+    MSG=$(grep -oP "Updated version: .*" /tmp/out | cut -d ' ' -f3- | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" | sed 's/ / v/')
     [[ -f /tmp/${REPO}.tar.gz ]] && rm /tmp/${REPO}.tar.gz
     ARTIFACT=$(ls /tmp/repo/${REPO}*)
     sudo -u dimitris scp $ARTIFACT ${SERVER}:/tmp
