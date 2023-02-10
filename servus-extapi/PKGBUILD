@@ -1,0 +1,33 @@
+pkgname=servus-extapi
+pkgver="0.0.1"
+pkgrel=1
+pkgbranch=master
+pkgdesc='servus-extapi'
+arch=('x86_64' 'armv7h' 'aarch64')
+url='https://github.com/DictumMortuum/servus-extapi'
+license=(APACHE)
+makedepends=(go)
+source=("${pkgname}.tar.gz::${url}/archive/refs/heads/master.tar.gz")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+   cat main.go | awk '/version":/ {print $2}' | tr -d ',' | tr -d 'v' | tr -d '"'
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-s -ldflags=-w"
+  export GOARCH="$ARCH"
+  make build
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  install -Dm755 "servus-extapi" "$pkgdir/usr/local/bin/servus-extapi"
+  install -Dm644 "systemd/servus-extapi.service" "$pkgdir"/usr/lib/systemd/system/servus-extapi.service
+}

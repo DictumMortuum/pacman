@@ -1,0 +1,14 @@
+pkgbase = servus-extapi
+	pkgdesc = servus-extapi
+	pkgver = 0.0.1
+	pkgrel = 1
+	url = https://github.com/DictumMortuum/servus-extapi
+	arch = x86_64
+	arch = armv7h
+	arch = aarch64
+	license = APACHE
+	makedepends = go
+	source = servus-extapi.tar.gz::https://github.com/DictumMortuum/servus-extapi/archive/refs/heads/master.tar.gz
+	sha256sums = SKIP
+
+pkgname = servus-extapi
