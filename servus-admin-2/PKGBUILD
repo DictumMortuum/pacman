@@ -1,0 +1,35 @@
+pkgname=servus-admin-2
+pkgver="0.1.0"
+pkgrel=1
+pkgbranch=master
+pkgdesc='servus-admin-2'
+arch=('aarch64')
+url='https://github.com/DictumMortuum/servus-admin-2'
+license=(APACHE)
+makedepends=(go jq yarn)
+source=("${pkgname}.tar.gz::${url}/archive/refs/heads/master.tar.gz")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  jq '.version' package.json
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  yarn install
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgbranch"
+  yarn build
+
+  cd build
+  for f in ./*; do
+    [[ ! -d $f ]] && install -Dm644 "$f" "$pkgdir"/usr/share/webapps/servus-admin-2/$f
+  done
+
+  for f in ./static/js/*; do
+    [[ ! -d $f ]] && install -Dm644 "$f" "$pkgdir"/usr/share/webapps/servus-admin-2/$f
+  done
+}
