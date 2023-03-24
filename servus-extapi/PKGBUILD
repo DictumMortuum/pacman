@@ -1,5 +1,5 @@
 pkgname=servus-extapi
-pkgver="0.0.1"
+pkgver=0.0.3
 pkgrel=1
 pkgbranch=master
 pkgdesc='servus-extapi'
