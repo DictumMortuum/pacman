@@ -1,5 +1,5 @@
 pkgname=servus-utils
-pkgver="0.0.15"
+pkgver="0.0.16"
 pkgrel=1
 pkgbranch=main
 pkgdesc='servus-utils'
@@ -27,6 +27,7 @@ package() {
   install -Dm755 "sds"  "$pkgdir/usr/local/bin/sds"
   install -Dm755 "scsa" "$pkgdir/usr/local/bin/scsa"
   install -Dm755 "scsb" "$pkgdir/usr/local/bin/scsb"
-  install -Dm755 "scsc" "$pkgdir/usr/local/bin/scsd"
+  install -Dm755 "scsc" "$pkgdir/usr/local/bin/scsc"
+  install -Dm755 "scsd" "$pkgdir/usr/local/bin/scsd"
   install -Dm755 "scrape" "$pkgdir/usr/local/bin/scrape"
 }
