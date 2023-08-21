@@ -1,71 +1,20 @@
----
-name: pacman
-
-on:  # yamllint disable-line rule:truthy
-  push:
-    branches:
-      - master
-  pull_request:
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: [push]
 
 jobs:
-  validation:
+  hello_world_job:
     runs-on: ubuntu-latest
-    name: Create artifacts
+    name: A job to say hello
     steps:
-      - uses: actions/checkout@v1
-
-      - run: mkdir -p repo
-
-      - name: Create aarch64 servus
-        id: servus-aarch64
-        uses: DictumMortuum/arch-pkgbuild-builder@v1.20
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Hello world action step
+        uses: ./ # Uses an action in the root directory
+        id: build
         with:
-          target: 'pkgbuild'
-          pkgname: 'servus'
-          makepkg: 'aarch64.conf'
-
-      - run: cp /tmp/repo/*.pkg.tar.zst repo/
-
-      - name: Create x86_64 i3-utils
-        id: i3-utils-x86_64
-        uses: DictumMortuum/arch-pkgbuild-builder@v1.20
-        with:
-          target: 'pkgbuild'
-          pkgname: 'i3-utils'
-          makepkg: 'x86_64.conf'
-
-      - run: cp /tmp/repo/*.pkg.tar.zst repo/
-
-      - name: Create aarch64 servus-admin
-        id: servus-admin-aarch64
-        uses: DictumMortuum/arch-pkgbuild-builder@v1.20
-        with:
-          target: 'pkgbuild'
-          pkgname: 'servus-admin'
-          makepkg: 'aarch64.conf'
-
-      - run: cp /tmp/repo/*.pkg.tar.zst repo/
-
-      - run: |
-          cd repo
-          repo-add -R personal.db.tar.gz *aarch64*.pkg.tar.zst >> build.log
-          repo-add -R personal-x86_64.tar.gz *x86_64*.pkg.tar.zst >> build.log
-
-      - name: Upload artifacts
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: repo/*.tar.zst
-          file_glob: true
-          tag: ${{ github.ref }}
-
-      - name: Upload repositories
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: repo/*.db.tar.gz
-          file_glob: true
-          tag: ${{ github.ref }}
+          arch: aarch64
+          repo: servus-player
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
