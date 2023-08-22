@@ -33,6 +33,9 @@ ulimit -Hn
 # build the package
 ARCH=$1
 REPO=$2
+
+echo "$@ , $ARCH , $INPUT_ARCH , $REPO , $INPUT_REPO"
+
 cd $REPO
 sudo -u pkguser makepkg --config ../${ARCH}.conf -fc
 
