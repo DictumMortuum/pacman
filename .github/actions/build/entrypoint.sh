@@ -43,8 +43,8 @@ echo ${INPUT_UPLOAD_KEY} >> /tmp/id_rsa
 # upload artifact and update the repository
 [[ -f /tmp/${INPUT_REPO}.tar.gz ]] && rm /tmp/${INPUT_REPO}.tar.gz
 ARTIFACT=$(ls /tmp/repo/${INPUT_REPO}*)
-scp -i /tmp/id_rsa $ARTIFACT ${INPUT_UPLOAD_HOST}:/tmp
-ssh -i /tmp/id_rsa ${INPUT_UPLOAD_HOST} "sudo cp /tmp/$(basename ${ARTIFACT}) /mnt/nfsserver/apps/repo/${INPUT_ARCH}"
-ssh -i /tmp/id_rsa ${INPUT_UPLOAD_HOST} "sudo /mnt/nfsserver/apps/repo/${INPUT_ARCH}/create_repo.sh"
+scp -o 'StrictHostKeyChecking no' -i /tmp/id_rsa $ARTIFACT ${INPUT_UPLOAD_HOST}:/tmp
+ssh -o 'StrictHostKeyChecking no' -i /tmp/id_rsa ${INPUT_UPLOAD_HOST} "sudo cp /tmp/$(basename ${ARTIFACT}) /mnt/nfsserver/apps/repo/${INPUT_ARCH}"
+ssh -o 'StrictHostKeyChecking no' -i /tmp/id_rsa ${INPUT_UPLOAD_HOST} "sudo /mnt/nfsserver/apps/repo/${INPUT_ARCH}/create_repo.sh"
 
 chown -R "$og" .
