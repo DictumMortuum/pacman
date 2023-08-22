@@ -14,7 +14,10 @@ jobs:
         with:
           arch: ${{ github.event.client_payload.ARCH }}
           repo: ${{ github.event.client_payload.REPO }}
-      - uses: actions/upload-artifact@v3
+      - uses: svenstaro/upload-release-action@v2
         with:
-          name: ${{ github.event.client_payload.REPO }}
-          path: /tmp/repo/
+          repo_token: ${{secrets.PAT}}
+          tag: 'default'
+          file: 'repo/*'
+          file_glob: true
+          overwrite: true
