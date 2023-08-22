@@ -42,4 +42,12 @@ sudo -u pkguser makepkg --config ../${INPUT_ARCH}.conf -fc
 # print out the packages for debugging
 ls -l /tmp/repo
 
+count=10
+while ! ping -c 1 satellite.dictummortuum.com ; do
+  echo "waiting..." ;
+  sleep 1 ;
+  let count=count-1
+done
+echo "ping success"
+
 chown -R "$og" .
