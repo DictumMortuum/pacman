@@ -1,7 +1,8 @@
-on: [workflow_dispatch]
-
+on:
+  repository_dispatch:
+    types: [package]
 jobs:
-  package:
+  dispatch:
     runs-on: ubuntu-latest
     name: package
     steps:
@@ -11,5 +12,5 @@ jobs:
         uses: ./.github/actions/build
         id: build
         with:
-          arch: aarch64
-          repo: servus-player
+          arch: '${{ github.event.client_payload.ARCH }}'
+          repo: '${{ github.event.client_payload.REPO }}'
