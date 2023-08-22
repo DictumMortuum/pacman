@@ -52,6 +52,9 @@ jobs:
         with:
           name: ${{ github.event.client_payload.REPO }}
 
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: ZeroTier
         uses: zerotier/github-action@v1.0.1
         with:
