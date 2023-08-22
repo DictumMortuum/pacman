@@ -2,10 +2,16 @@ name: Build package in Docker
 description: Build package in Docker
 inputs:
   arch:
-    description: GitHub build repository slug
+    description: aarch64 or x86_64
     required: true
   repo:
-    description: Tag name for repository release
+    description: github slug
+    required: true
+  upload_key:
+    description: rsa_key for ssh
+    required: true
+  upload_host:
+    description: hostname for artifact upload
     required: true
 runs:
   using: docker

@@ -30,24 +30,20 @@ chown -R pkguser: .
 ulimit -Sn
 ulimit -Hn
 
-# build the package
-ARCH=$1
-REPO=$2
-
-echo "$@ , $ARCH , $INPUT_ARCH , $REPO , $INPUT_REPO"
-
 cd $INPUT_REPO
 sudo -u pkguser makepkg --config ../${INPUT_ARCH}.conf -fc
 
 # print out the packages for debugging
 ls -l /tmp/repo
 
-count=10
-while ! ping -c 1 satellite.dictummortuum.com ; do
-  echo "waiting..." ;
-  sleep 1 ;
-  let count=count-1
-done
-echo "ping success"
+# create the rsa key for the transfer
+echo ${INPUT_UPLOAD_KEY} >> /tmp/id_rsa
+
+# upload artifact and update the repository
+[[ -f /tmp/${INPUT_REPO}.tar.gz ]] && rm /tmp/${INPUT_REPO}.tar.gz
+ARTIFACT=$(ls /tmp/repo/${INPUT_REPO}*)
+scp -i /tmp/id_rsa $ARTIFACT ${INPUT_UPLOAD_HOST}:/tmp
+ssh -i /tmp/id_rsa ${INPUT_UPLOAD_HOST} "sudo cp /tmp/$(basename ${ARTIFACT}) /mnt/nfsserver/apps/repo/${INPUT_ARCH}"
+ssh -i /tmp/id_rsa ${INPUT_UPLOAD_HOST} "sudo /mnt/nfsserver/apps/repo/${INPUT_ARCH}/create_repo.sh"
 
 chown -R "$og" .
