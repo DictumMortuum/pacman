@@ -40,6 +40,6 @@ cd $INPUT_REPO
 sudo -u pkguser makepkg --config ../${INPUT_ARCH}.conf -fc
 
 # print out the packages for debugging
-ls -l /tmp/
+ls -l /tmp/repo
 
 chown -R "$og" .
