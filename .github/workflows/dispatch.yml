@@ -24,5 +24,6 @@ jobs:
           upload_host: ${{ secrets.UPLOAD_HOST }}
       - shell: bash
         run: |
-          ls -l /tmp/repo
           ls -l /
+          ls -l /tmp
+          ls -l /tmp/repo
