@@ -46,6 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: default
     name: upload
+    needs: [dispatch]
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -58,10 +59,12 @@ jobs:
           auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
 
       - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: satellite.dictummortuum.com
           username: dimitris
           key: ${{ secrets.UPLOAD_KEY }}
           port: 22
           script: whoami
+          source: ${{ github.event.client_payload.REPO }}.zip
+          target: /tmp
