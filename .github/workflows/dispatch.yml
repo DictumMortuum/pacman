@@ -65,6 +65,5 @@ jobs:
           username: dimitris
           key: ${{ secrets.UPLOAD_KEY }}
           port: 22
-          script: whoami
           source: ${{ github.event.client_payload.REPO }}.zip
           target: /tmp
