@@ -39,7 +39,7 @@ ls -l /tmp/repo
 
 # create the rsa key for the transfer
 mkdir -p ~/.ssh
-echo ${INPUT_UPLOAD_KEY} >> ~/.ssh/id_rsa
+echo ${INPUT_UPLOAD_KEY} | tr -d '\r' >> ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
 # upload artifact and update the repository
