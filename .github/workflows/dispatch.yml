@@ -12,5 +12,5 @@ jobs:
         uses: ./.github/actions/build
         id: build
         with:
-          arch: '${{ github.event.client_payload.ARCH }}'
-          repo: '${{ github.event.client_payload.REPO }}'
+          arch: '${{ github.event.client_payload.INPUT_ARCH }}'
+          repo: '${{ github.event.client_payload.INPUT_REPO }}'
