@@ -38,8 +38,9 @@ sudo -u pkguser makepkg --config ../${INPUT_ARCH}.conf -fc
 ls -l /tmp/repo
 
 # create the rsa key for the transfer
-echo ${INPUT_UPLOAD_KEY} >> /tmp/id_rsa
-chmod 600 /tmp/id_rsa
+mkdir -p ~/.ssh
+echo ${INPUT_UPLOAD_KEY} >> ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
 
 # upload artifact and update the repository
 [[ -f /tmp/${INPUT_REPO}.tar.gz ]] && rm /tmp/${INPUT_REPO}.tar.gz
