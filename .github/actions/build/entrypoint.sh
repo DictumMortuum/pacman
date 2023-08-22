@@ -11,7 +11,8 @@ pacman -Syu --noconfirm \
   --ignore linux-firmware \
   --needed base-devel \
   --needed go \
-  --needed aarch64-linux-gnu-binutils
+  --needed aarch64-linux-gnu-binutils \
+  --needed openssh
 
 # Ensure wheel group exists (seriously??)
 groupadd -f -r wheel
