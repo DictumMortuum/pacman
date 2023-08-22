@@ -22,3 +22,6 @@ jobs:
           repo: ${{ github.event.client_payload.REPO }}
           upload_key: ${{ secrets.UPLOAD_KEY }}
           upload_host: ${{ secrets.UPLOAD_HOST }}
+      - shell: bash
+        run: |
+          ls -l /tmp/repo
