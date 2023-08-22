@@ -14,3 +14,7 @@ jobs:
         with:
           arch: ${{ github.event.client_payload.ARCH }}
           repo: ${{ github.event.client_payload.REPO }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.event.client_payload.REPO }}
+          path: /tmp/repo/**/*.zst
