@@ -16,7 +16,7 @@ jobs:
           repo: ${{ github.event.client_payload.REPO }}
       - uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{secrets.PAT}}
+          repo_token: ${{ secrets.PAT || github.token }}
           tag: 'default'
           file: '/tmp/repo/*'
           file_glob: true
