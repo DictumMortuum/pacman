@@ -18,6 +18,6 @@ jobs:
         with:
           repo_token: ${{secrets.PAT}}
           tag: 'default'
-          file: 'repo/*'
+          file: '/tmp/repo/*'
           file_glob: true
           overwrite: true
