@@ -45,6 +45,7 @@ chmod 600 ~/.ssh/id_rsa
 # upload artifact and update the repository
 [[ -f /tmp/${INPUT_REPO}.tar.gz ]] && rm /tmp/${INPUT_REPO}.tar.gz
 ARTIFACT=$(ls /tmp/repo/${INPUT_REPO}*)
+ssh -o 'StrictHostKeyChecking no' ${INPUT_UPLOAD_HOST} -vvv
 scp -o 'StrictHostKeyChecking no' $ARTIFACT ${INPUT_UPLOAD_HOST}:/tmp
 ssh -o 'StrictHostKeyChecking no' ${INPUT_UPLOAD_HOST} "sudo cp /tmp/$(basename ${ARTIFACT}) /mnt/nfsserver/apps/repo/${INPUT_ARCH}"
 ssh -o 'StrictHostKeyChecking no' ${INPUT_UPLOAD_HOST} "sudo /mnt/nfsserver/apps/repo/${INPUT_ARCH}/create_repo.sh"
