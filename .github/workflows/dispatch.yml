@@ -41,3 +41,12 @@ jobs:
         with:
           name: ${{ github.event.client_payload.REPO }}
           path: /tmp/repo/*.zst
+
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: satellite.dictummortuum.com
+          username: dimitris
+          key: ${{ secrets.UPLOAD_KEY }}
+          port: 22
+          script: whoami
