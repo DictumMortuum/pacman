@@ -36,8 +36,8 @@ REPO=$2
 
 echo "$@ , $ARCH , $INPUT_ARCH , $REPO , $INPUT_REPO"
 
-cd $REPO
-sudo -u pkguser makepkg --config ../${ARCH}.conf -fc
+cd $INPUT_REPO
+sudo -u pkguser makepkg --config ../${INPUT_ARCH}.conf -fc
 
 # print out the packages for debugging
 ls -l /tmp/
