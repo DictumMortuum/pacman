@@ -37,21 +37,7 @@ jobs:
           cd ${{ github.event.client_payload.REPO }}
           sudo -u pkguser makepkg --config ../${{ github.event.client_payload.ARCH }}.conf -fc
 
-      # - name: ZeroTier
-      #   uses: zerotier/github-action@v1.0.1
-      #   with:
-      #     network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
-      #     auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
-      # - name: build
-      #   uses: ./.github/actions/build
-      #   id: build
-      #   with:
-      #     arch: ${{ github.event.client_payload.ARCH }}
-      #     repo: ${{ github.event.client_payload.REPO }}
-      #     upload_key: ${{ secrets.UPLOAD_KEY }}
-      #     upload_host: ${{ secrets.UPLOAD_HOST }}
-      - shell: bash
-        run: |
-          ls -l /
-          ls -l /tmp
-          ls -l /tmp/repo
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.event.client_payload.REPO }}
+          path: /tmp/repo/*.zst
