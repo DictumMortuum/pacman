@@ -37,19 +37,19 @@ sudo -u pkguser makepkg --config ../${INPUT_ARCH}.conf -fc
 # print out the packages for debugging
 ls -l /tmp/repo
 
-# create the rsa key for the transfer
-mkdir -p ~/.ssh
-echo ${INPUT_UPLOAD_KEY} >> ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
+# # create the rsa key for the transfer
+# mkdir -p ~/.ssh
+# echo ${INPUT_UPLOAD_KEY} >> ~/.ssh/id_rsa
+# chmod 600 ~/.ssh/id_rsa
 
-cat ~/.ssh/id_rsa
+# cat ~/.ssh/id_rsa
 
-# upload artifact and update the repository
-[[ -f /tmp/${INPUT_REPO}.tar.gz ]] && rm /tmp/${INPUT_REPO}.tar.gz
-ARTIFACT=$(ls /tmp/repo/${INPUT_REPO}*)
-# ssh -o 'StrictHostKeyChecking no' ${INPUT_UPLOAD_HOST} -vvv
-scp -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa $ARTIFACT ${INPUT_UPLOAD_HOST}:/tmp
-ssh -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa ${INPUT_UPLOAD_HOST} "sudo cp /tmp/$(basename ${ARTIFACT}) /mnt/nfsserver/apps/repo/${INPUT_ARCH}"
-ssh -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa ${INPUT_UPLOAD_HOST} "sudo /mnt/nfsserver/apps/repo/${INPUT_ARCH}/create_repo.sh"
+# # upload artifact and update the repository
+# [[ -f /tmp/${INPUT_REPO}.tar.gz ]] && rm /tmp/${INPUT_REPO}.tar.gz
+# ARTIFACT=$(ls /tmp/repo/${INPUT_REPO}*)
+# # ssh -o 'StrictHostKeyChecking no' ${INPUT_UPLOAD_HOST} -vvv
+# scp -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa $ARTIFACT ${INPUT_UPLOAD_HOST}:/tmp
+# ssh -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa ${INPUT_UPLOAD_HOST} "sudo cp /tmp/$(basename ${ARTIFACT}) /mnt/nfsserver/apps/repo/${INPUT_ARCH}"
+# ssh -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa ${INPUT_UPLOAD_HOST} "sudo /mnt/nfsserver/apps/repo/${INPUT_ARCH}/create_repo.sh"
 
 chown -R "$og" .
