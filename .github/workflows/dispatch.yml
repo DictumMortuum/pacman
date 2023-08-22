@@ -10,37 +10,43 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - shell: bash
-        run: |
-          pacman-key --init
-          pacman -Syu --noconfirm \
-            --ignore linux \
-            --ignore linux-firmware \
-            --needed base-devel \
-            --needed go \
-            --needed aarch64-linux-gnu-binutils \
-            --needed openssh
-
-          # Ensure wheel group exists (seriously??)
-          groupadd -f -r wheel
-
-          # Create an unprivileged user
-          useradd -m -G wheel -s /bin/bash pkguser
-
-          # Grant group wheel sudo rights without password.
-          echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
-
-          # Run pkgbuild script as unprivileged user
-          og=$(stat -c '%u:%g' .)
-          chown -R pkguser: .
-
-          cd ${{ github.event.client_payload.REPO }}
-          sudo -u pkguser makepkg --config ../${{ github.event.client_payload.ARCH }}.conf -fc
-
-      - uses: actions/upload-artifact@v3
+      - name: ZeroTier
+        uses: zerotier/github-action@v1.0.1
         with:
-          name: ${{ github.event.client_payload.REPO }}
-          path: /tmp/repo/*.zst
+          network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
+          auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
+
+      # - shell: bash
+      #   run: |
+      #     pacman-key --init
+      #     pacman -Syu --noconfirm \
+      #       --ignore linux \
+      #       --ignore linux-firmware \
+      #       --needed base-devel \
+      #       --needed go \
+      #       --needed aarch64-linux-gnu-binutils \
+      #       --needed openssh
+
+      #     # Ensure wheel group exists (seriously??)
+      #     groupadd -f -r wheel
+
+      #     # Create an unprivileged user
+      #     useradd -m -G wheel -s /bin/bash pkguser
+
+      #     # Grant group wheel sudo rights without password.
+      #     echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
+
+      #     # Run pkgbuild script as unprivileged user
+      #     og=$(stat -c '%u:%g' .)
+      #     chown -R pkguser: .
+
+      #     cd ${{ github.event.client_payload.REPO }}
+      #     sudo -u pkguser makepkg --config ../${{ github.event.client_payload.ARCH }}.conf -fc
+
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ github.event.client_payload.REPO }}
+      #     path: /tmp/repo/*.zst
 
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.0.0
