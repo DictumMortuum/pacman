@@ -20,3 +20,10 @@ jobs:
         with:
           arch: ${{ github.event.client_payload.ARCH }}
           repo: ${{ github.event.client_payload.REPO }}
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.PAT }}
+          tag: 'repository'
+          file: '/tmp/repo/*'
+          file_glob: true
+          overwrite: true
