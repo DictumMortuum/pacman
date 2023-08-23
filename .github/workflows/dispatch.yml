@@ -37,6 +37,12 @@ jobs:
           cd ${{ github.event.client_payload.REPO }}
           sudo -u pkguser makepkg --config ../${{ github.event.client_payload.ARCH }}.conf -fc
 
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "ART=$(ls /tmp/repo/*.zst)" >> "${GITHUB_OUTPUT}"
+
+      - run: echo ${{ steps.yarn-cache.outputs.ART }}
+
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.client_payload.REPO }}
@@ -52,6 +58,8 @@ jobs:
         id: download
         with:
           name: ${{ github.event.client_payload.REPO }}
+
+      - run: echo ${{ steps.yarn-cache.outputs.ART }}
 
       - name: 'Echo download path'
         run: echo ${{steps.download.outputs.download-path}}
