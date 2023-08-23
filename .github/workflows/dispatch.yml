@@ -47,10 +47,6 @@ jobs:
         id: artifact
         run: echo "ARTIFACT=$(basename ${{ steps.artifact_path.outputs.ARTIFACT_PATH }})" >> "${GITHUB_OUTPUT}"
 
-      - run: echo ${{ steps.artifact_path.outputs.ARTIFACT_PATH }}
-
-      - run: echo ${{ steps.artifact.outputs.ARTIFACT }}
-
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.client_payload.REPO }}
@@ -80,7 +76,7 @@ jobs:
           host: ${{ secrets.UPLOAD_HOST }}
           username: ${{ secrets.UPLOAD_USER }}
           key: ${{ secrets.UPLOAD_KEY }}
-          port: 22
+          port: ${{ secrets.UPLOAD_PORT }}
           source: "${{ github.event.client_payload.REPO }}*.zst"
           target: /tmp
 
@@ -89,11 +85,12 @@ jobs:
           host: ${{ secrets.UPLOAD_HOST }}
           username: ${{ secrets.UPLOAD_USER }}
           key: ${{ secrets.UPLOAD_KEY }}
-          port: 22
+          port: ${{ secrets.UPLOAD_PORT }}
           script: |
             REPO_DIR=/mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}
-            sudo cp ${{ needs.dispatch.outputs.artifact }} ${REPO_DIR}
-            rm ${{ needs.dispatch.outputs.artifact }}
+            ARTIFACT=/tmp/${{ needs.dispatch.outputs.artifact }}
+            sudo cp ${ARTIFACT} ${REPO_DIR}
+            rm ${ARTIFACT}
             if [[ ! -f ${REPO_DIR}/personal.db.tar.gz.lck ]]; then
               sudo ${REPO_DIR}/create_repo.sh
             fi
