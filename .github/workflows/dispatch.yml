@@ -49,8 +49,12 @@ jobs:
     needs: [dispatch]
     steps:
       - uses: actions/download-artifact@v3
+        id: download
         with:
           name: ${{ github.event.client_payload.REPO }}
+
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
 
       - uses: zerotier/github-action@v1.0.1
         with:
@@ -74,5 +78,5 @@ jobs:
           port: 22
           script: |
             sudo cp /tmp/*.zst /mnt/nfssever/apps/repo/${{ github.event.client_payload.ARCH }}/
-            rm /tmp/*.zst
+            # rm /tmp/*.zst
             sudo /mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}/create_repo.sh
