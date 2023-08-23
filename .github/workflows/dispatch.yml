@@ -7,6 +7,8 @@ jobs:
     environment: default
     name: package
     container: archlinux:base-devel
+    outputs:
+      artifact: ${{ steps.artifact.outputs.ARTIFACT }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -37,32 +39,34 @@ jobs:
           cd ${{ github.event.client_payload.REPO }}
           sudo -u pkguser makepkg --config ../${{ github.event.client_payload.ARCH }}.conf -fc
 
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "ART=$(ls /tmp/repo/*.zst)" >> "${GITHUB_OUTPUT}"
+      - name: Get artifact
+        id: artifact_path
+        run: echo "ARTIFACT_PATH=$(ls /tmp/repo/*.zst)" >> "${GITHUB_OUTPUT}"
 
-      - run: echo ${{ steps.yarn-cache.outputs.ART }}
+      - name: Get artifact path
+        id: artifact
+        run: echo "ARTIFACT=$(basename ${{ steps.artifact.outputs.ARTIFACT_PATH }})" >> "${GITHUB_OUTPUT}"
+
+      - run: echo ${{ steps.artifact.outputs.ARTIFACT }}
 
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.client_payload.REPO }}
-          path: /tmp/repo/*.zst
+          path: ${{ steps.artifact_path.outputs.ARTIFACT_PATH }}
 
   upload:
     runs-on: ubuntu-latest
     environment: default
     name: upload
-    needs: [dispatch]
+    needs: dispatch
     steps:
       - uses: actions/download-artifact@v3
         id: download
         with:
           name: ${{ github.event.client_payload.REPO }}
 
-      - run: echo ${{ steps.yarn-cache.outputs.ART }}
-
       - name: 'Echo download path'
-        run: echo ${{steps.download.outputs.download-path}}
+        run: echo ${{ steps.download.outputs.download-path }}
 
       - uses: zerotier/github-action@v1.0.1
         with:
@@ -86,8 +90,8 @@ jobs:
           port: 22
           script: |
             REPO_DIR=/mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}
-            sudo cp /tmp/*.zst ${REPO_DIR}
-            rm /tmp/*.zst
+            sudo cp ${{ needs.dispatch.outputs.artifact }} ${REPO_DIR}
+            rm ${{ needs.dispatch.outputs.artifact }}
             if [[ ! -f ${REPO_DIR}/personal.db.tar.gz.lck ]]; then
               sudo ${REPO_DIR}/create_repo.sh
             fi
