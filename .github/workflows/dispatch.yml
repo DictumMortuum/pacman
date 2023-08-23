@@ -52,21 +52,27 @@ jobs:
         with:
           name: ${{ github.event.client_payload.REPO }}
 
-      - name: Display structure of downloaded files
-        run: ls -R
-
-      - name: ZeroTier
-        uses: zerotier/github-action@v1.0.1
+      - uses: zerotier/github-action@v1.0.1
         with:
           network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
           auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
 
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/scp-action@v0.1.4
+      - uses: appleboy/scp-action@v0.1.4
         with:
-          host: satellite.dictummortuum.com
-          username: dimitris
+          host: ${{ secrets.UPLOAD_HOST }}
+          username: ${{ secrets.UPLOAD_USER }}
           key: ${{ secrets.UPLOAD_KEY }}
           port: 22
           source: "${{ github.event.client_payload.REPO }}*.zst"
           target: /tmp
+
+      - uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.UPLOAD_HOST }}
+          username: ${{ secrets.UPLOAD_USER }}
+          key: ${{ secrets.UPLOAD_KEY }}
+          port: 22
+          script: |
+            sudo cp /tmp/*.zst /mnt/nfssever/apps/repo/${{ github.event.client_payload.ARCH }}
+            rm /tmp/*.zst
+            sudo /mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}/create_repo.sh
