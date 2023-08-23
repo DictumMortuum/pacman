@@ -45,7 +45,9 @@ jobs:
 
       - name: Get artifact path
         id: artifact
-        run: echo "ARTIFACT=$(basename ${{ steps.artifact.outputs.ARTIFACT_PATH }})" >> "${GITHUB_OUTPUT}"
+        run: echo "ARTIFACT=$(basename ${{ steps.artifact_path.outputs.ARTIFACT_PATH }})" >> "${GITHUB_OUTPUT}"
+
+      - run: echo ${{ steps.artifact_path.outputs.ARTIFACT_PATH }}
 
       - run: echo ${{ steps.artifact.outputs.ARTIFACT }}
 
