@@ -77,8 +77,6 @@ jobs:
           key: ${{ secrets.UPLOAD_KEY }}
           port: 22
           script: |
-            ls -l /tmp
-            ARTIFACT=$(ls /tmp/*.zst)
-            sudo cp ${ARTIFACT} /mnt/nfssever/apps/repo/${{ github.event.client_payload.ARCH }}/
-            # rm /tmp/*.zst
+            sudo cp /tmp/*.zst /mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}/
+            rm /tmp/*.zst
             sudo /mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}/create_repo.sh
