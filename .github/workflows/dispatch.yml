@@ -91,6 +91,13 @@ jobs:
             ARTIFACT=/tmp/${{ needs.dispatch.outputs.artifact }}
             sudo cp ${ARTIFACT} ${REPO_DIR}
             rm ${ARTIFACT}
-            if [[ ! -f ${REPO_DIR}/personal.db.tar.gz.lck ]]; then
-              sudo ${REPO_DIR}/create_repo.sh
-            fi
+
+            n=0
+            until [ "$n" -ge 5 ]; do
+              if [[ ! -f ${REPO_DIR}/personal.db.tar.gz.lck ]]; then
+                sudo ${REPO_DIR}/create_repo.sh
+                break
+              fi
+              n=$((n+1))
+              sleep 15
+            done
