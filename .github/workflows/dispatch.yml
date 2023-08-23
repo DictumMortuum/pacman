@@ -19,7 +19,7 @@ jobs:
             --needed base-devel \
             --needed go \
             --needed aarch64-linux-gnu-binutils \
-            --needed openssh
+            --needed jq
 
           # Ensure wheel group exists (seriously??)
           groupadd -f -r wheel
