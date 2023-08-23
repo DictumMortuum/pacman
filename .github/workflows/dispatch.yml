@@ -77,6 +77,9 @@ jobs:
           key: ${{ secrets.UPLOAD_KEY }}
           port: 22
           script: |
-            sudo cp /tmp/*.zst /mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}/
+            REPO_DIR=/mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}
+            sudo cp /tmp/*.zst ${REPO_DIR}
             rm /tmp/*.zst
-            sudo /mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}/create_repo.sh
+            if [[ ! -f ${REPO_DIR}/personal.db.tar.gz.lck ]]; then
+              sudo ${REPO_DIR}/create_repo.sh
+            fi
