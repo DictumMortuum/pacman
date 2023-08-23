@@ -73,6 +73,6 @@ jobs:
           key: ${{ secrets.UPLOAD_KEY }}
           port: 22
           script: |
-            sudo cp /tmp/*.zst /mnt/nfssever/apps/repo/${{ github.event.client_payload.ARCH }}
+            sudo cp /tmp/*.zst /mnt/nfssever/apps/repo/${{ github.event.client_payload.ARCH }}/
             rm /tmp/*.zst
             sudo /mnt/nfsserver/apps/repo/${{ github.event.client_payload.ARCH }}/create_repo.sh
