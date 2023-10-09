@@ -1,33 +1,34 @@
 pkgname=servus-utils
-pkgver="0.0.17"
+pkgver="0.0.18"
 pkgrel=1
-pkgbranch=main
+pkgbranch=master
 pkgdesc='servus-utils'
+pkgsrc=servus-extapi
 arch=('x86_64' 'armv7h' 'aarch64')
-url='https://github.com/DictumMortuum/servus-utils'
+url='https://github.com/DictumMortuum/servus-extapi'
 license=(APACHE)
 makedepends=(go jq)
-source=("${pkgname}.tar.gz::${url}/archive/refs/heads/${pkgbranch}.tar.gz")
+source=("${pkgsrc}.tar.gz::${url}/archive/refs/heads/${pkgbranch}.tar.gz")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$pkgname-$pkgbranch"
+  cd "$srcdir/$pkgsrc-$pkgbranch"
   jq '.version' version.json
 }
 
 build() {
-  cd "$srcdir/$pkgname-$pkgbranch"
+  cd "$srcdir/$pkgsrc-$pkgbranch"
   export GOARCH="$ARCH"
-  make
+  make servus-magissa
+  make servus-modem-a
+  make servus-modem-d
+  make servus-modem-restart-a
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgbranch"
-  install -Dm755 "srr"  "$pkgdir/usr/local/bin/srr"
-  install -Dm755 "sds"  "$pkgdir/usr/local/bin/sds"
-  install -Dm755 "scsa" "$pkgdir/usr/local/bin/scsa"
-  install -Dm755 "scsb" "$pkgdir/usr/local/bin/scsb"
-  install -Dm755 "scsc" "$pkgdir/usr/local/bin/scsc"
-  install -Dm755 "scsd" "$pkgdir/usr/local/bin/scsd"
-  install -Dm755 "scrape" "$pkgdir/usr/local/bin/scrape"
+  cd "$srcdir/$pkgsrc-$pkgbranch/dist"
+  install -Dm755 servus-magissa "$pkgdir/usr/local/bin/magissa"
+  install -Dm755 servus-modem-a "$pkgdir/usr/local/bin/scsa"
+  install -Dm755 servus-modem-d "$pkgdir/usr/local/bin/scsd"
+  install -Dm755 servus-modem-restart-a "$pkgdir/usr/local/bin/srr"
 }
