@@ -20,6 +20,7 @@ build() {
   cd "$srcdir/$pkgsrc-$pkgbranch"
   export GOARCH="$ARCH"
   make servus-magissa
+  make servus-nauagio
   make servus-modem-a
   make servus-modem-d
   make servus-modem-restart-a
@@ -28,6 +29,7 @@ build() {
 package() {
   cd "$srcdir/$pkgsrc-$pkgbranch/dist"
   install -Dm755 servus-magissa "$pkgdir/usr/local/bin/magissa"
+  install -Dm755 servus-nauagio "$pkgdir/usr/local/bin/nauagio"
   install -Dm755 servus-modem-a "$pkgdir/usr/local/bin/scsa"
   install -Dm755 servus-modem-d "$pkgdir/usr/local/bin/scsd"
   install -Dm755 servus-modem-restart-a "$pkgdir/usr/local/bin/srr"
