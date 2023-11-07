@@ -1,5 +1,5 @@
 pkgname=servus-utils
-pkgver="0.0.18"
+pkgver="0.0.21"
 pkgrel=1
 pkgbranch=master
 pkgdesc='servus-utils'
@@ -24,6 +24,7 @@ build() {
   make servus-modem-a
   make servus-modem-d
   make servus-modem-restart-a
+  make servus-scrape
 }
 
 package() {
@@ -33,4 +34,5 @@ package() {
   install -Dm755 servus-modem-a "$pkgdir/usr/local/bin/scsa"
   install -Dm755 servus-modem-d "$pkgdir/usr/local/bin/scsd"
   install -Dm755 servus-modem-restart-a "$pkgdir/usr/local/bin/srr"
+  install -Dm755 servus-scrape "$pkgdir/usr/local/bin/scrape"
 }
