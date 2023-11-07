@@ -5,7 +5,7 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     environment: default
-    name: package
+    name: package ${{ github.event.client_payload.REPO }}
     container: archlinux:base-devel
     outputs:
       artifact: ${{ steps.artifact.outputs.ARTIFACT }}
@@ -55,7 +55,7 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     environment: default
-    name: upload
+    name: upload ${{ github.event.client_payload.REPO }}
     needs: dispatch
     steps:
       - uses: actions/download-artifact@v3
