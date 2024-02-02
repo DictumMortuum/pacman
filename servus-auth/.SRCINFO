@@ -1,6 +1,6 @@
-pkgbase = servus-prices
-	pkgdesc = servus-prices
-	pkgver = 0.0.0
+pkgbase = servus-auth
+	pkgdesc = servus-auth
+	pkgver = 0.0.1
 	pkgrel = 1
 	url = https://github.com/DictumMortuum/servus-extapi
 	arch = x86_64
@@ -8,7 +8,7 @@ pkgbase = servus-prices
 	arch = aarch64
 	license = APACHE
 	makedepends = go
-	source = servus-prices.tar.gz::https://github.com/DictumMortuum/servus-extapi/archive/refs/heads/master.tar.gz
+	source = servus-auth.tar.gz::https://github.com/DictumMortuum/servus-extapi/archive/refs/heads/master.tar.gz
 	sha256sums = SKIP
 
-pkgname = servus-prices
+pkgname = servus-auth

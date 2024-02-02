@@ -1,4 +1,4 @@
-pkgname=servus-prices
+pkgname=servus-auth
 pkgver=0.0.1
 pkgrel=1
 pkgbranch=master
