@@ -1,5 +1,5 @@
 pkgname=database-exporter
-pkgver="0.0.3"
+pkgver=0.0.4
 pkgrel=1
 pkgbranch=master
 pkgdesc=$pkgname
@@ -13,7 +13,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$pkgsrc-$pkgbranch/cmd/$pkgname"
-  cat main.go | awk '/version":/ {print $2}' | tr -d ',' | tr -d 'v' | tr -d '"'
+  cat main.go | awk '/version :=/ { print $3 }' | tr -d ',' | tr -d 'v' | tr -d '"'
 }
 
 build() {
@@ -29,5 +29,5 @@ build() {
 package() {
   cd "$srcdir/$pkgsrc-$pkgbranch"
   install -Dm755 "dist/${pkgname}" "$pkgdir/usr/local/bin/${pkgname}"
-  install -Dm644 "systemd/${pkgname}.service" "$pkgdir"/usr/lib/systemd/system/${pkgname}.service
+  install -Dm644 "systemd/prometheus-${pkgname}.service" "$pkgdir"/usr/lib/systemd/system/prometheus-${pkgname}.service
 }
