@@ -24,6 +24,7 @@ build() {
   make servus-modem-restart-a
   make servus-scrape
   make servus-series
+  make servus-deco
 }
 
 package() {
@@ -33,4 +34,5 @@ package() {
   install -Dm755 servus-modem-restart-a "$pkgdir/usr/local/bin/srr"
   install -Dm755 servus-scrape "$pkgdir/usr/local/bin/scrape"
   install -Dm755 servus-series "$pkgdir/usr/local/bin/series"
+  install -Dm755 servus-deco "$pkgdir/usr/local/bin/deco"
 }

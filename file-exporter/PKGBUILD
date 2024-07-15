@@ -1,0 +1,33 @@
+pkgname=file-exporter
+pkgver=0.0.1
+pkgrel=1
+pkgbranch=master
+pkgdesc=$pkgname
+pkgsrc=servus-extapi
+arch=('x86_64' 'armv7h' 'aarch64')
+url='https://github.com/DictumMortuum/servus-extapi'
+license=(APACHE)
+makedepends=(go awk)
+source=("${pkgname}.tar.gz::${url}/archive/refs/heads/master.tar.gz")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgsrc-$pkgbranch/cmd/$pkgname"
+  cat main.go | awk '/version :=/ { print $3 }' | tr -d ',' | tr -d 'v' | tr -d '"'
+}
+
+build() {
+  cd "$srcdir/$pkgsrc-$pkgbranch"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export GOARCH="$ARCH"
+  make $pkgname
+}
+
+package() {
+  cd "$srcdir/$pkgsrc-$pkgbranch"
+  install -Dm755 "dist/${pkgname}" "$pkgdir/usr/local/bin/${pkgname}"
+  install -Dm644 "systemd/prometheus-${pkgname}.service" "$pkgdir"/usr/lib/systemd/system/prometheus-${pkgname}.service
+}

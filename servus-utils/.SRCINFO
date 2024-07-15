@@ -1,6 +1,6 @@
 pkgbase = servus-utils
 	pkgdesc = servus-utils
-	pkgver = 0.0.18
+	pkgver = 0.0.21
 	pkgrel = 1
 	url = https://github.com/DictumMortuum/servus-extapi
 	arch = x86_64
