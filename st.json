@@ -1,0 +1,7 @@
+{
+  "action": "repository_dispatch",
+  "client_payload": {
+    "REPO": "st",
+    "ARCH": "x86_64"
+  }
+}

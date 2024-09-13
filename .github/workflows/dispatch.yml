@@ -21,7 +21,10 @@ jobs:
             --needed base-devel \
             --needed go \
             --needed aarch64-linux-gnu-binutils \
-            --needed jq
+            --needed jq \
+            --needed libx11 \
+            --needed libxft \
+            --needed node
 
           # Ensure wheel group exists (seriously??)
           groupadd -f -r wheel
