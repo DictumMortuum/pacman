@@ -24,7 +24,7 @@ jobs:
             --needed jq \
             --needed libx11 \
             --needed libxft \
-            --needed node
+            --needed nodejs
 
           # Ensure wheel group exists (seriously??)
           groupadd -f -r wheel
