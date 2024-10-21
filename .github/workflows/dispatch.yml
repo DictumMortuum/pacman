@@ -104,3 +104,6 @@ jobs:
               n=$((n+1))
               sleep 15
             done
+
+      - name: 'Notify'
+        run: curl -d "Build successful" ntfy.sh/${{ secrets.NTFY_TOPIC }}
